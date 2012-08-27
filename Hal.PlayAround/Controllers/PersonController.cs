@@ -1,16 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using Hal.PlayAround.Models;
+using Hal.PlayAround.Repositories;
 
 namespace Hal.PlayAround.Controllers
 {
-    public class ValuesController : ApiController
+    public class PersonController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        private readonly IPersonRepository _personRepository;
+
+        public PersonController(IPersonRepository personRepository)
         {
-            return new string[] { "value1", "value2" };
+            _personRepository = personRepository;
         }
 
+        // GET /person
+        public IEnumerable<Person> Get()
+        {
+            return _personRepository.GetAll();
+        }
+        /*
         // GET api/values/5
         public string Get(int id)
         {
@@ -31,5 +40,6 @@ namespace Hal.PlayAround.Controllers
         public void Delete(int id)
         {
         }
+        */
     }
 }

@@ -1,0 +1,32 @@
+﻿POST http://localhost:63872/person HTTP/1.1
+Host: localhost:63872
+Accept: application/json, *
+Content-Length: 18
+Content-Type: application/json
+
+{Name: "Person 1"}
+-----------------------------------------------------------------------
+HTTP/1.1 201 Created
+Location: http://localhost:63872/Person/1
+Content-Length: 0
+=======================================================================
+GET http://localhost:63872/Person/1 HTTP/1.1
+Host: localhost:63872
+Accept: application/json, *
+-----------------------------------------------------------------------
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Content-Length: 26
+
+{"Id":1,"Name":"Person 1"}
+=======================================================================
+GET http://localhost:63872/Person HTTP/1.1
+Host: localhost:63872
+Accept: application/json, *
+-----------------------------------------------------------------------
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Content-Length: 82
+
+[{"Id":1,"Name":"Person 1"},{"Id":2,"Name":"Person 1"},{"Id":3,"Name":"Person 1"}]
+=======================================================================

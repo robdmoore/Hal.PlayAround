@@ -11,7 +11,7 @@ namespace Hal.PlayAround
     {
         public static void Register(HttpConfiguration config)
         {
-            config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}", new { id = RouteParameter.Optional });
+            config.Routes.MapHttpRoute("Api", "{controller}/{id}", new { id = RouteParameter.Optional });
         }
     }
 

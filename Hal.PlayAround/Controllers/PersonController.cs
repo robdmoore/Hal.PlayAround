@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using Hal.PlayAround.Models;
 using Hal.PlayAround.Repositories;
@@ -19,27 +22,32 @@ namespace Hal.PlayAround.Controllers
         {
             return _personRepository.GetAll();
         }
-        /*
-        // GET api/values/5
-        public string Get(int id)
+        
+        // GET /person/1
+        public Person Get(int id)
         {
-            return "value";
+            return _personRepository.Get(id);
         }
 
-        // POST api/values
-        public void Post([FromBody]string value)
+        // POST /person
+        public HttpResponseMessage Post(Person person)
         {
+            _personRepository.Insert(person);
+
+            var response = Request.CreateResponse(HttpStatusCode.Created);
+            response.Headers.Location = new Uri(Url.Link("Api", new { Controller = "Person", person.Id }));
+
+            return response;
         }
 
-        // PUT api/values/5
+        // PUT /person/1
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/values/5
+        // DELETE /person/1
         public void Delete(int id)
         {
         }
-        */
     }
 }

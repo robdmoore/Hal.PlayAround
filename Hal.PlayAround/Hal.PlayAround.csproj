@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Requests.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup />

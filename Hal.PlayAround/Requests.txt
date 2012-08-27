@@ -30,3 +30,23 @@ Content-Length: 82
 
 [{"Id":1,"Name":"Person 1"},{"Id":2,"Name":"Person 1"},{"Id":3,"Name":"Person 1"}]
 =======================================================================
+PUT http://localhost:63872/person/1 HTTP/1.1
+Host: localhost:63872
+Accept: application/json, *
+Content-Length: 25
+Content-Type: application/json
+
+{Name: "Person 2", Id: 1}
+-----------------------------------------------------------------------
+HTTP/1.1 200 OK
+Location: http://localhost:63872/Person/1
+Content-Length: 0
+=======================================================================
+DELETE http://localhost:63872/person/1 HTTP/1.1
+Host: localhost:63872
+Accept: application/json, *
+Content-Length: 0
+-----------------------------------------------------------------------
+HTTP/1.1 200 OK
+Content-Length: 0
+=======================================================================

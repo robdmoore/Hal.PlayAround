@@ -41,13 +41,21 @@ namespace Hal.PlayAround.Controllers
         }
 
         // PUT /person/1
-        public void Put(int id, [FromBody]string value)
+        public void Put(Person person)
         {
+            if (_personRepository.Get(person.Id) == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            _personRepository.Update(person);
         }
 
         // DELETE /person/1
         public void Delete(int id)
         {
+            if (_personRepository.Get(id) == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            _personRepository.Delete(id);
         }
     }
 }

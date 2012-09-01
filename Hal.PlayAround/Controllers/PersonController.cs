@@ -59,11 +59,7 @@ namespace Hal.PlayAround.Controllers
         public HttpResponseMessage Post(Person person)
         {
             _personRepository.Insert(person);
-
-            var response = Request.CreateResponse(HttpStatusCode.Created);
-            response.Headers.Location = new Uri(Url.Link("Api", new { Controller = "Person", person.Id }));
-
-            return response;
+            return Request.CreateResponse(HttpStatusCode.Created, person);
         }
 
         // PUT /person/1

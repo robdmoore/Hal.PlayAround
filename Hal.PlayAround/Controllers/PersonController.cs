@@ -5,11 +5,32 @@ using System.Net.Http;
 using System.Web.Http;
 using Hal.PlayAround.Models;
 using Hal.PlayAround.Repositories;
+using WebApi.Hal.Attributes;
+using WebApi.Hal.Dtos;
+using WebApi.Hal.Interfaces;
 
 namespace Hal.PlayAround.Controllers
 {
-    public class PersonController : ApiController
+    public class PersonController : ApiController, IHalAwareController
     {
+        public static class Resource
+        {
+            public const string Self = WebApi.Hal.Hal.Resource.Self;
+        }
+        public Link GetLinkForResource(string resourceId, object o)
+        {
+            var p = o as Person;
+            if (p == null)
+                return null;
+
+            switch (resourceId)
+            {
+                case Resource.Self:
+                    return new Link(resourceId, Url.Link("Api", new {Controller = "Person", p.Id}));
+            }
+            return null;
+        }
+        
         private readonly IPersonRepository _personRepository;
 
         public PersonController(IPersonRepository personRepository)
@@ -18,6 +39,7 @@ namespace Hal.PlayAround.Controllers
         }
 
         // GET /person
+        [LinkedResource(Resource.Self)]
         public IEnumerable<Person> Get()
         {
             return _personRepository.GetAll();

@@ -4,6 +4,8 @@ using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Hal.PlayAround.Repositories;
+using WebApi.Hal;
+using WebApi.Hal.Formatters;
 
 namespace Hal.PlayAround
 {
@@ -27,6 +29,7 @@ namespace Hal.PlayAround
 
             var container = builder.Build();
             GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            HalConfiguration.Configure(GlobalConfiguration.Configuration);
         }
     }
 }

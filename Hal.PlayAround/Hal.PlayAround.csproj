@@ -142,7 +142,12 @@
     <Content Include="Requests.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WebApi.Hal\WebApi.Hal.csproj">
+      <Project>{5E6DEDC1-307D-40F9-AB48-56CC9275EECB}</Project>
+      <Name>WebApi.Hal</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

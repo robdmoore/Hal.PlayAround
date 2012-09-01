@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\LinkedResourceAttribute.cs" />
+    <Compile Include="HalConfiguration.cs" />
     <Compile Include="Converters\HypermediaContentConverter.cs" />
     <Compile Include="Converters\LinksConverter.cs" />
     <Compile Include="Dtos\HypermediaContent.cs" />

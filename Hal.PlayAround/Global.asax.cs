@@ -1,8 +1,10 @@
-﻿using System.Reflection;
+﻿using System.Net.Http.Formatting;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
+using Hal.PlayAround.Hal;
 using Hal.PlayAround.Repositories;
 
 namespace Hal.PlayAround
@@ -27,6 +29,7 @@ namespace Hal.PlayAround
 
             var container = builder.Build();
             GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            GlobalConfiguration.Configuration.Formatters.Add(new JsonHalMediaTypeFormatter());
         }
     }
 }

@@ -26,7 +26,11 @@ namespace Hal.PlayAround.Controllers
         // GET /person/1
         public Person Get(int id)
         {
-            return _personRepository.Get(id);
+            var person = _personRepository.Get(id);
+            if (person == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            return person;
         }
 
         // POST /person

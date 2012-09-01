@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Filters;
 using WebApi.Hal.Attributes;
-using WebApi.Hal.Converters;
 using WebApi.Hal.Dtos;
 using WebApi.Hal.Interfaces;
 
@@ -13,11 +11,6 @@ namespace WebApi.Hal.Filters
 {
     public class HalFilter : ActionFilterAttribute
     {
-        public static class Resource
-        {
-            public const string Self = "self";
-        }
-
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
             if (!actionExecutedContext.Request.Headers.Accept.Any(h => h.MediaType.ToLower() == "application/hal+json"))
@@ -56,7 +49,7 @@ namespace WebApi.Hal.Filters
                 attrs.Select(attr => controller.GetLinkForResource(attr.Resource, o)).ToList()
                     .ForEach(a => newContent.Links.Add(a));
             }
-            newContent.Links.Add(new Link(Resource.Self, actionExecutedContext.Request.RequestUri.AbsolutePath));
+            newContent.Links.Add(new Link(Hal.Resource.Self, actionExecutedContext.Request.RequestUri.AbsolutePath));
             actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(actionExecutedContext.Response.StatusCode, newContent);
         }
     }

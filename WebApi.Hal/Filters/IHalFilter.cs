@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Filters;
@@ -29,9 +31,8 @@ namespace WebApi.Hal.Filters
             if (objectContent == null)
                 return;
 
-            var attrs = actionExecutedContext.ActionContext.ActionDescriptor.GetCustomAttributes<LinkedResourceAttribute>();
-            if (attrs == null || attrs.Count == 0)
-                return;
+            var attrs = actionExecutedContext.ActionContext.ActionDescriptor.GetCustomAttributes<LinkedResourceAttribute>()
+                ?? new BindingList<LinkedResourceAttribute>();
 
             HypermediaContent newContent;
             var objectList = objectContent.Value as IEnumerable;

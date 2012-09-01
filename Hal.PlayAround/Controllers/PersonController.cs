@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -26,7 +25,7 @@ namespace Hal.PlayAround.Controllers
             switch (resourceId)
             {
                 case Resource.Self:
-                    return new Link(resourceId, Url.Link("Api", new {Controller = "Person", p.Id}));
+                    return new Link(resourceId, Url.Route("Api", new {Controller = "Person", p.Id}));
             }
             return null;
         }

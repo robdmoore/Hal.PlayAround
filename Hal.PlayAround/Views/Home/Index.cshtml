@@ -1,0 +1,99 @@
+﻿<!doctype html>
+<html lang="en">
+    <head>
+        <title>Web API - HAL</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.0/css/bootstrap-combined.min.css" type="text/css" />
+        <script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
+        <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <section class="container">
+            <h1>Web API - Hal</h1>
+            <p>This site serves as a dummy site to play around with the concept of introducing <a href="http://stateless.co/hal_specification.html" target="_blank">HAL hypermedia</a> using ASP.NET Web API.</p>
+            <p>To see the HAL you need to make sure your accept header has <code>application/hal+json</code> and nothing else. IF you use another header type the HAL hypermedia won't appear, but the site will still work fine.</p>
+            <h2>Todo</h2>
+            <ul>
+                <li>Fix up the representation of a List of objects so it's HAL compliant (this might mean that the representation returned is different from normal JSON!?)</li>
+                <li>Fix up the automatic self resource so it works correctly across all requests</li>
+                <li>Embedded resources</li>
+                <li>XML representation</li>
+                <li>Complex examples</li>
+                <li>Ability to specify a link or embedded resource on the class itself (if it always applies) or on the controller action - this would mean that the current method of generating the resources from a IHalAwareController won't work - perhaps I need to add an IHalAwareEntity as well?</li>
+            </ul>
+            <h2>Example</h2>
+            <ul class="nav nav-tabs">
+                <li><a href="#create" data-toggle="tab">Create</a></li>
+                <li><a href="#get" data-toggle="tab">Get</a></li>
+                <li><a href="#get2" data-toggle="tab">Get All</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="create">
+                    <h3>Create a person</h3>
+                    <form class="form-inline">
+                        <label for="name">Person's Name</label>
+                        <input type="text" id="name" value="Person 1" />
+                        <button onclick="return createPerson();">Create</button>
+                    </form>
+                </div>
+                <div class="tab-pane" id="get">
+                    <h2>Get a person</h2>
+                    <form class="form-inline">
+                        <label for="id">Person's Id</label>
+                        <input type="text" id="id" value="1" />
+                        <button onclick="return getPerson();">Get</button>
+                    </form>
+                </div>
+                <div class="tab-pane" id="get2">
+                    <h2>Get all people</h2>
+                    <form class="form-inline">
+                        <button onclick="return getPeople();">Get</button>
+                    </form>                    
+                </div>
+            </div>
+            <script type="text/javascript">
+            <!--
+                $('.nav-tabs a').click(function(e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                });
+                $(function() {
+                    $('.nav-tabs a:first').tab('show');
+                });
+                function createPerson() {
+                    return makeRequest("post", "@Url.HttpRouteUrl("Api", new {controller = "Person"})", "{Name: \"" + document.getElementById("name").value + "\"}");
+                }
+                function getPerson() {
+                    return makeRequest("get", "@Url.HttpRouteUrl("Api", new {controller = "Person", id = 0})".replace("0", document.getElementById("id").value));
+                }
+                function getPeople() {
+                    return makeRequest("get", "@Url.HttpRouteUrl("Api", new { controller = "Person" })");
+                }
+                function makeRequest(method, action, content) {
+                    var request = new XMLHttpRequest();
+                    request.open(method, action);
+                    request.setRequestHeader("Accept", "application/hal+json");
+                    if (typeof content !== "undefined")
+                    {
+                        request.setRequestHeader("Content-Type", "application/json");
+                        request.send(content);
+                    } else {
+                        request.send();
+                    }
+                    request.onreadystatechange = function() {
+                        if (request.readyState == 4) {
+                            var response = document.getElementById("response");
+                            response.innerText = "HTTP/1.1 " + request.status + " " + request.statusText + "\r\n";
+                            response.innerText += request.getAllResponseHeaders();
+                            response.innerText += "\r\n";
+                            response.innerText += request.responseText;
+                        }
+                    };
+                    return false;
+                }
+            -->
+            </script>
+            <h2>Last Response</h2>
+            <pre id="response"><em>N/A</em></pre>
+        </section>
+    </body>
+</html>

@@ -31,6 +31,7 @@ namespace WebApi.Hal.Filters
             var objectList = objectContent.Value as IEnumerable;
             if (objectList != null)
             {
+                // todo: this is wrong because they should be embedded
                 var newList = new ArrayList();
                 newContent = new HypermediaContent(newList);
                 foreach (var o in objectList)
@@ -48,8 +49,12 @@ namespace WebApi.Hal.Filters
                 var o = objectContent.Value;
                 attrs.Select(attr => controller.GetLinkForResource(attr.Resource, o)).ToList()
                     .ForEach(a => newContent.Links.Add(a));
+
+                if (actionExecutedContext.Request.Method != HttpMethod.Get && attrs.All(a => a.Resource != Hal.Resource.Self))
+                    newContent.Links.Add(controller.GetLinkForResource(Hal.Resource.Self, o));
             }
-            newContent.Links.Add(new Link(Hal.Resource.Self, actionExecutedContext.Request.RequestUri.AbsolutePath));
+            if (newContent.Links.All(l => l.Rel != Hal.Resource.Self))
+                newContent.Links.Add(new Link(Hal.Resource.Self, actionExecutedContext.Request.RequestUri.AbsolutePath));
             actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(actionExecutedContext.Response.StatusCode, newContent);
         }
     }

@@ -25,6 +25,8 @@
                 <li><a href="#create" data-toggle="tab">Create</a></li>
                 <li><a href="#get" data-toggle="tab">Get</a></li>
                 <li><a href="#get2" data-toggle="tab">Get All</a></li>
+                <li><a href="#put" data-toggle="tab">Update</a></li>
+                <li><a href="#delete" data-toggle="tab">Delete</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane" id="create">
@@ -47,7 +49,25 @@
                     <h2>Get all people</h2>
                     <form class="form-inline">
                         <button onclick="return getPeople();">Get</button>
-                    </form>                    
+                    </form>
+                </div>
+                <div class="tab-pane" id="put">
+                    <h2>Update person</h2>
+                    <form class="form-inline">
+                        <label for="id">Person's Id</label>
+                        <input type="text" id="id2" value="1" />
+                        <label for="name">Person's new name</label>
+                        <input type="text" id="name2" value="Person 2" />
+                        <button onclick="return updatePerson();">Update</button>
+                    </form>
+                </div>
+                <div class="tab-pane" id="delete">
+                    <h2>Delete person</h2>
+                    <form class="form-inline">
+                        <label for="id">Person's Id</label>
+                        <input type="text" id="id3" value="1" />
+                        <button onclick="return deletePerson();">Delete</button>
+                    </form>
                 </div>
             </div>
             <script type="text/javascript">
@@ -68,6 +88,12 @@
                 function getPeople() {
                     return makeRequest("get", "@Url.HttpRouteUrl("Api", new { controller = "Person" })");
                 }
+                function updatePerson() {
+                    return makeRequest("put", "@Url.HttpRouteUrl("Api", new {controller = "Person", id = 0})".replace("0", document.getElementById("id2").value), "{Name: \"" + document.getElementById("name2").value + "\", Id: " + document.getElementById("id2").value + "}");
+                }
+                function deletePerson() {
+                    return makeRequest("delete", "@Url.HttpRouteUrl("Api", new {controller = "Person", id = 0})".replace("0", document.getElementById("id3").value));
+                }
                 function makeRequest(method, action, content) {
                     var request = new XMLHttpRequest();
                     request.open(method, action);
@@ -79,6 +105,15 @@
                     } else {
                         request.send();
                     }
+                    var requestText = document.getElementById("request");
+                    requestText.innerText = method.toUpperCase() + " " + action + " HTTP/1.1\r\n";
+                    requestText.innerText += "Accept: application/hal+json\r\n";
+                    if (typeof content !== "undefined") {
+                        requestText.innerText += "Content-Type: application/json\r\n";
+                        requestText.innerText += "Content-Length: " + content.length + "\r\n";
+                        requestText.innerText += "\r\n" + content;
+                    }
+
                     request.onreadystatechange = function() {
                         if (request.readyState == 4) {
                             var response = document.getElementById("response");
@@ -92,6 +127,8 @@
                 }
             -->
             </script>
+            <h2>Last Request</h2>
+            <pre id="request"><em>N/A</em></pre>
             <h2>Last Response</h2>
             <pre id="response"><em>N/A</em></pre>
         </section>
